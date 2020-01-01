@@ -1,7 +1,7 @@
 # Christmas garland
-Simple alarm clock on arduino uno shows the current time, plays the melody at the specified time and also saves the settings when the power is turned off.
+The garland is built on an address LED strip and can show different effects. Each effect can be finely tuned using three potentiometers. The project code is created as a template for your own development.
 
-Project page on my website: [https://arduino-technology.ru/projects/new-year-rgb/](https://arduino-technology.ru/projects/new-year-rgb/)
+Project page on website: [https://arduino-technology.ru/projects/new-year-rgb/](https://arduino-technology.ru/projects/new-year-rgb/)
 
 <F3>![New year rgb photo](https://raw.githubusercontent.com/arduinotech/new_year_rgb/master/garland.jpg)
 
