@@ -17,3 +17,5 @@ Used components:
 * Switch: [1](http://ali.pub/4a7dod) [2](http://ali.pub/4a7dp5) [3](http://ali.pub/4a7dqi)
 * 220 ohm resistor: [1](http://ali.pub/4a7e26) [2](http://ali.pub/4a7e2r) [3](http://ali.pub/4a7e3q)
 * Cables: [1](http://ali.pub/356rk3) [2](http://ali.pub/356rl2) [3](http://ali.pub/356rlu)
+
+Download body 3D-model: [https://arduino-technology.ru/files/new_year_rgb.zip](https://arduino-technology.ru/files/new_year_rgb.zip)
