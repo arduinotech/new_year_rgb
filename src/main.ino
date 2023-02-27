@@ -36,18 +36,18 @@ CRGB leds[LED_COUNT];
 
 void setup()
 {
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
 
-  pinMode(ENCODER_1_PIN, INPUT);
-  pinMode(ENCODER_2_PIN, INPUT);
-  pinMode(ENCODER_3_PIN, INPUT);
+    pinMode(ENCODER_1_PIN, INPUT);
+    pinMode(ENCODER_2_PIN, INPUT);
+    pinMode(ENCODER_3_PIN, INPUT);
 
-  FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, LED_COUNT);
+    FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, LED_COUNT);
 
-  for (int i = 0; i < LED_COUNT; i++) {
-    leds[i] = CRGB::Black;
-  }
-  FastLED.show();
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i] = CRGB::Black;
+    }
+    FastLED.show();
 }
 
 
@@ -57,31 +57,42 @@ void setup()
 
 void loop()
 {
-  uint64_t now = millis();
+    uint64_t now = millis();
 
-  static int curEffect = 0;
-  static uint64_t lastClickTime = 0;
+    static int curEffect = 0;
+    static uint64_t lastClickTime = 0;
 
-  int sensorVal = digitalRead(BUTTON_PIN);
-  if ((sensorVal == LOW) && ((now - lastClickTime) > DOUBLE_CLICK_DELAY)) {
-    curEffect++;
-    if (curEffect > 4) {
-      curEffect = 0;
+    int sensorVal = digitalRead(BUTTON_PIN);
+    if ((sensorVal == LOW) && ((now - lastClickTime) > DOUBLE_CLICK_DELAY)) {
+        curEffect++;
+        if (curEffect > 9) {
+            curEffect = 0;
+        }
+        lastClickTime = now;
     }
-    lastClickTime = now;
-  }
 
-  if (curEffect == 0) {
-    movingColors(now);
-  } else if (curEffect == 1) {
-    fillByColor();
-  } else if (curEffect == 2) {
-    simpleBlink(now);
-  } else if (curEffect == 3) {
-    runningPoint(now);
-  } else {
-    showColors(now);
-  }
+
+    if (curEffect == 0) {
+        white1Brightness();
+    } else if (curEffect == 1) {
+        white2Brightness();
+    } else if (curEffect == 2) {
+        white3Brightness();
+    } else if (curEffect == 3) {
+        white4Brightness();
+    } else if (curEffect == 4) {
+        white5Brightness();
+    } else if (curEffect == 5) {
+        movingColors(now);
+    } else if (curEffect == 6) {
+        fillByColor();
+    } else if (curEffect == 7) {
+        simpleBlink(now);
+    } else if (curEffect == 8) {
+        runningPoint(now);
+    } else {
+        showColors(now);
+    }
 }
 
 
@@ -89,150 +100,195 @@ void loop()
 // ================= EFFECTS =================
 // ===========================================
 
+void white1Brightness()
+{
+    FastLED.setBrightness(1);
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(255, 255, 255);
+    }
+    FastLED.show();
+}
+
+void white2Brightness()
+{
+    FastLED.setBrightness(10);
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(255, 255, 255);
+    }
+    FastLED.show();
+}
+
+void white3Brightness()
+{
+    FastLED.setBrightness(50);
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(255, 255, 255);
+    }
+    FastLED.show();
+}
+
+void white4Brightness()
+{
+    FastLED.setBrightness(100);
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(255, 255, 255);
+    }
+    FastLED.show();
+}
+
+void white5Brightness()
+{
+    FastLED.setBrightness(255);
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(255, 255, 255);
+    }
+    FastLED.show();
+}
+
 void movingColors(uint64_t now)
 {
-  static uint64_t last = 0;
+    static uint64_t last = 0;
 
-  int colorR, colorG, colorB;
-  static int j = 10;
+    int colorR, colorG, colorB;
+    static int j = 10;
 
-  int delay = map(analogRead(ENCODER_1_PIN), 0, 1023, 10, 1000);
+    int delay = map(analogRead(ENCODER_1_PIN), 0, 1023, 10, 1000);
 
-  if ((now - last) > delay) {
-    for (int i = 0; i < LED_COUNT; i++) {
-      if (((i + j) % 10) == 0) {
-        colorR = 246;
-        colorG = 119;
-        colorB = 199;
-      } else if (((i + j) % 10) == 1) {
-        colorR = 229;
-        colorG = 10;
-        colorB = 149;
-      } else if (((i + j) % 10) == 2) {
-        colorR = 226;
-        colorG = 8;
-        colorB = 22;
-      } else if (((i + j) % 10) == 3) {
-        colorR = 243;
-        colorG = 81;
-        colorB = 22;
-      } else if (((i + j) % 10) == 4) {
-        colorR = 252;
-        colorG = 229;
-        colorB = 21;
-      } else if (((i + j) % 10) == 5) {
-        colorR = 99;
-        colorG = 245;
-        colorB = 37;
-      } else if (((i + j) % 10) == 6) {
-        colorR = 70;
-        colorG = 255;
-        colorB = 255;
-      } else if (((i + j) % 10) == 7) {
-        colorR = 24;
-        colorG = 80;
-        colorB = 236;
-      } else if (((i + j) % 10) == 8) {
-        colorR = 123;
-        colorG = 24;
-        colorB = 236;
-      } else if (((i + j) % 10) == 9) {
-        colorR = 182;
-        colorG = 87;
-        colorB = 238;
-      }
-      leds[i].setRGB(colorR, colorG, colorB);
+    if ((now - last) > delay) {
+        for (int i = 0; i < LED_COUNT; i++) {
+            if (((i + j) % 10) == 0) {
+                colorR = 246;
+                colorG = 119;
+                colorB = 199;
+            } else if (((i + j) % 10) == 1) {
+                colorR = 229;
+                colorG = 10;
+                colorB = 149;
+            } else if (((i + j) % 10) == 2) {
+                colorR = 226;
+                colorG = 8;
+                colorB = 22;
+            } else if (((i + j) % 10) == 3) {
+                colorR = 243;
+                colorG = 81;
+                colorB = 22;
+            } else if (((i + j) % 10) == 4) {
+                colorR = 252;
+                colorG = 229;
+                colorB = 21;
+            } else if (((i + j) % 10) == 5) {
+                colorR = 99;
+                colorG = 245;
+                colorB = 37;
+            } else if (((i + j) % 10) == 6) {
+                colorR = 70;
+                colorG = 255;
+                colorB = 255;
+            } else if (((i + j) % 10) == 7) {
+                colorR = 24;
+                colorG = 80;
+                colorB = 236;
+            } else if (((i + j) % 10) == 8) {
+                colorR = 123;
+                colorG = 24;
+                colorB = 236;
+            } else if (((i + j) % 10) == 9) {
+                colorR = 182;
+                colorG = 87;
+                colorB = 238;
+            }
+            leds[i].setRGB(colorR, colorG, colorB);
+        }
+        j--;
+        if (j == 0) {
+            j = 10;
+        }
+        last = now;
     }
-    j--;
-    if (j == 0) {
-      j = 10;
-    }
-    last = now;
-  }
-  FastLED.show();
+    FastLED.show();
 }
 
 void fillByColor()
 {
-  int colorR = map(analogRead(ENCODER_1_PIN), 0, 1023, 0, 255);
-  int colorG = map(analogRead(ENCODER_2_PIN), 0, 1023, 0, 255);
-  int colorB = map(analogRead(ENCODER_3_PIN), 0, 1023, 0, 255);
+    int colorR = map(analogRead(ENCODER_1_PIN), 0, 1023, 0, 255);
+    int colorG = map(analogRead(ENCODER_2_PIN), 0, 1023, 0, 255);
+    int colorB = map(analogRead(ENCODER_3_PIN), 0, 1023, 0, 255);
 
-  for (int i = 0; i < LED_COUNT; i++) {
-    leds[i].setRGB(colorR, colorG, colorB);
-  }
-  FastLED.show();
+    for (int i = 0; i < LED_COUNT; i++) {
+        leds[i].setRGB(colorR, colorG, colorB);
+    }
+    FastLED.show();
 }
 
 void simpleBlink(uint64_t now)
 {
-  static uint8_t state = 0;
-  static uint64_t last = 0;
+    static uint8_t state = 0;
+    static uint64_t last = 0;
 
-  int delay = map(analogRead(ENCODER_1_PIN), 0, 1023, 100, 1000);
+    int delay = map(analogRead(ENCODER_1_PIN), 0, 1023, 100, 1000);
 
-  if ((now - last) > delay) {
-    if (state == 0) {
-      for (int i = 0; i < LED_COUNT; i++) {
-        if (i % 7 == 0) {
-          leds[i] = CRGB::Red;
-        } else if (i % 7 == 1) {
-          leds[i] = CRGB::Orange;
-        } else if (i % 7 == 2) {
-          leds[i] = CRGB::Yellow;
-        } else if (i % 7 == 3) {
-          leds[i] = CRGB::Green;
-        } else if (i % 7 == 4) {
-          leds[i] = CRGB::LightBlue;
-        } else if (i % 7 == 5) {
-          leds[i] = CRGB::Blue;
-        } else {
-          leds[i] = CRGB::Violet;
+    if ((now - last) > delay) {
+        if (state == 0) {
+        for (int i = 0; i < LED_COUNT; i++) {
+            if (i % 7 == 0) {
+             leds[i] = CRGB::Red;
+            } else if (i % 7 == 1) {
+                leds[i] = CRGB::Orange;
+            } else if (i % 7 == 2) {
+                leds[i] = CRGB::Yellow;
+            } else if (i % 7 == 3) {
+                leds[i] = CRGB::Green;
+            } else if (i % 7 == 4) {
+                leds[i] = CRGB::LightBlue;
+            } else if (i % 7 == 5) {
+                leds[i] = CRGB::Blue;
+            } else {
+                leds[i] = CRGB::Violet;
+            }
         }
-      }
-      FastLED.show();
-    } else {
-      for (int i = 0; i < LED_COUNT; i++) {
-        leds[i] = CRGB::Black;
-      }
-      FastLED.show();
+        FastLED.show();
+        } else {
+            for (int i = 0; i < LED_COUNT; i++) {
+                leds[i] = CRGB::Black;
+            }
+            FastLED.show();
+        }
+        last = now;
+        state = (state + 1) % 2;
     }
-    last = now;
-    state = (state + 1) % 2;
-  }
 }
 
 void showColors(uint64_t now)
 {
-  static uint8_t state = 0;
-  static uint16_t curColor = 0;
-  static uint64_t last = 0;
+    static uint8_t state = 0;
+    static uint16_t curColor = 0;
+    static uint64_t last = 0;
 
-  if ((now - last) > 50) {
-    curColor++;
-    if (curColor >= 256) {
-      curColor = 0;
-      state++;
-      if (state >= 4) {
-        state = 0;
-      }
+    if ((now - last) > 50) {
+        curColor++;
+        if (curColor >= 256) {
+            curColor = 0;
+            state++;
+            if (state >= 4) {
+                state = 0;
+            }
+        }
+
+        for (int i = 0; i < LED_COUNT; i++) {
+            if (state == 0) {
+                leds[i].setRGB(curColor, curColor, curColor);
+            } else if (state == 1) {
+                leds[i].setRGB(curColor, 0, 0);
+            } else if (state == 2) {
+                leds[i].setRGB(0, curColor, 0);
+            } else if (state == 3) {
+                leds[i].setRGB(0, 0, curColor);
+            }
+        }
+        FastLED.show();
+
+        last = now;
     }
-
-    for (int i = 0; i < LED_COUNT; i++) {
-      if (state == 0) {
-        leds[i].setRGB(curColor, curColor, curColor);
-      } else if (state == 1) {
-        leds[i].setRGB(curColor, 0, 0);
-      } else if (state == 2) {
-        leds[i].setRGB(0, curColor, 0);
-      } else if (state == 3) {
-        leds[i].setRGB(0, 0, curColor);
-      }
-    }
-    FastLED.show();
-
-    last = now;
-  }
 }
 
 void runningPoint(uint64_t now)
