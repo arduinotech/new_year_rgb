@@ -65,7 +65,7 @@ void loop()
     int sensorVal = digitalRead(BUTTON_PIN);
     if ((sensorVal == LOW) && ((now - lastClickTime) > DOUBLE_CLICK_DELAY)) {
         curEffect++;
-        if (curEffect > 9) {
+        if (curEffect > 14) {
             curEffect = 0;
         }
         lastClickTime = now;
@@ -73,22 +73,32 @@ void loop()
 
 
     if (curEffect == 0) {
-        white1Brightness();
+        yellowBrightness(1);
     } else if (curEffect == 1) {
-        white2Brightness();
+        yellowBrightness(10);
     } else if (curEffect == 2) {
-        white3Brightness();
+        yellowBrightness(50);
     } else if (curEffect == 3) {
-        white4Brightness();
+        yellowBrightness(100);
     } else if (curEffect == 4) {
-        white5Brightness();
+        yellowBrightness(255);
     } else if (curEffect == 5) {
-        movingColors(now);
+        whiteBrightness(1);
     } else if (curEffect == 6) {
-        fillByColor();
+        whiteBrightness(10);
     } else if (curEffect == 7) {
-        simpleBlink(now);
+        whiteBrightness(50);
     } else if (curEffect == 8) {
+        whiteBrightness(100);
+    } else if (curEffect == 9) {
+        whiteBrightness(255);
+    } else if (curEffect == 10) {
+        movingColors(now);
+    } else if (curEffect == 11) {
+        fillByColor();
+    } else if (curEffect == 12) {
+        simpleBlink(now);
+    } else if (curEffect == 13) {
         runningPoint(now);
     } else {
         showColors(now);
@@ -100,47 +110,20 @@ void loop()
 // ================= EFFECTS =================
 // ===========================================
 
-void white1Brightness()
+void whiteBrightness(int brightness)
 {
-    FastLED.setBrightness(1);
+    FastLED.setBrightness(brightness);
     for (int i = 0; i < LED_COUNT; i++) {
         leds[i].setRGB(255, 255, 255);
     }
     FastLED.show();
 }
 
-void white2Brightness()
+void yellowBrightness(int brightness)
 {
-    FastLED.setBrightness(10);
+    FastLED.setBrightness(brightness);
     for (int i = 0; i < LED_COUNT; i++) {
-        leds[i].setRGB(255, 255, 255);
-    }
-    FastLED.show();
-}
-
-void white3Brightness()
-{
-    FastLED.setBrightness(50);
-    for (int i = 0; i < LED_COUNT; i++) {
-        leds[i].setRGB(255, 255, 255);
-    }
-    FastLED.show();
-}
-
-void white4Brightness()
-{
-    FastLED.setBrightness(100);
-    for (int i = 0; i < LED_COUNT; i++) {
-        leds[i].setRGB(255, 255, 255);
-    }
-    FastLED.show();
-}
-
-void white5Brightness()
-{
-    FastLED.setBrightness(255);
-    for (int i = 0; i < LED_COUNT; i++) {
-        leds[i].setRGB(255, 255, 255);
+        leds[i].setRGB(255, 255, 0);
     }
     FastLED.show();
 }
